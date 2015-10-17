@@ -1,0 +1,305 @@
+os.loadAPI("DynaCode")
+local dyna=DynaCode.createProgram({ name="dyna" })
+dyna.setDebug(false)
+local passfile = dyna.file.getAll("passLock/suite.cfg")
+if not passfile then
+  local set = fs.open("passLock/suite.cfg", "w")
+  set.write("intitial")
+  set.close()
+end
+passfile = dyna.file.getAll("passLock/suite")
+if not passfile then
+  local f = fs.open("passLock/suite", "w")
+  f.write("os.loadAPI('passLock/passLock')\n passLock.suite()")
+  f.close()
+end
+local welcomebool = false
+
+function welcome()
+  local welcomest=dyna.createStage({
+  --Stage one start
+    name="welcome",
+    backgroundColor="white",
+    x=1,
+    y=1,
+    width=51,
+    height=19,
+    resizable=false,
+    moveable=false,
+    borderless=true
+  })
+  local welcomescene = dyna.createScene({name="welcomescene"})
+  welcomescene:replaceWithFile("passLock/welcome.dcml")
+  welcomescene:addToController("default", function()
+    local f = fs.open("passLock/suite.cfg", "w")
+    f.writeLine('{settings={bgcol="green", bcol="lime", maint="black", sect="black"}, ')
+    f.close()
+    dyna.stopWindows()
+    create()
+  end)
+  welcomescene:addToController("custom", function()
+    welcomebool = true
+    settings(welcomest)
+  end)
+  welcomest:setScene(welcomescene)
+  welcomest:build()
+  dyna.startWindows()
+end
+
+function suite()
+  config = dyna.file.getAll("passLock/suite.cfg")
+  if config == "initial" then
+    welcome()
+  end
+end
+
+function settings(stage)
+  local settings = dyna.createScene({name="welcomescene2"})
+  settings:replaceWithFile("passLock/welcome2.dcml")
+  stage:setScene(settings)
+  stage:build()
+  if welcomebool then
+    create()
+  end
+end
+
+function create()
+  print("Hello!")
+end
+
+function login(users, password)
+--Users values: usernum, username, password
+  dupNum = ": "
+  if type(users) ~= "table" and type(users) ~= "string" then
+    error("Invalid Argument")
+  elseif type(users) == "string" and type(password) == "nil" then
+    file = dyna.file.getAll(users)
+    file = textutils.unserialize(file)
+    if not file then
+      error("Password argument required")
+    elseif file == "" then
+      error("File is blank")
+    elseif type(file) == "table" then
+      users = file
+    end
+  elseif type(users) == "table" and type(password) ~= "nil" then
+    error("Invalid arguments, password should be stored in table")
+  end
+  if type(users) == "table" then
+    for key, user in ipairs(users) do
+      for num, name in ipairs(users) do
+        if key == num then break
+        elseif user.username == name.username then
+          if dupNum == ": " then
+            dupNum = dupNum .. name.username
+          else
+            dupNum = dupNum .. ", " .. name.username
+          end
+        end
+      end
+    end
+    if dupNum ~= ": " then
+      error("There were duplicate usernames" .. dupNum)
+    end
+  end
+
+  local stage1=dyna.createStage({
+  --Stage one start
+    name="stage1",
+    backgroundColor="green",
+    title="Login Information",
+    topBarColor="white",
+    x=10,
+    y=4,
+    width=32,
+    height=12,
+    resizable=false,
+    moveable=false,
+    borderless=true
+  })
+  --Stage one end
+  local scene1 = dyna.createScene({name="scene1"})
+  scene1:replaceWithFile("passLock/passLock.dcml")
+  stage1:setScene(scene1)
+  scene1:addToController("log", function(self)
+    local inname = scene1:getNode("usename"):getValue()
+    local inpass = scene1:getNode("usepass"):getValue()
+    if type(users) == "string" then
+      if inname == users and inpass == password then
+        returnbool = true
+        dyna.stopWindows()
+      end
+    elseif type(users) == "table" then
+      for key, user in ipairs(users) do
+        if user.username == inname and user.password == inpass then
+          returnbool = true
+          returnnum = tonumber(user.usernum)
+          dyna.stopWindows()
+        end
+      end
+    end
+    if not returnbool then
+      scene1:getNode("wrong"):setTextColor("red")
+    end
+  end)
+  dyna.registerEvent("key", function(event, key)
+    if key == keys.enter then
+    local inname = scene1:getNode("usename"):getValue()
+    local inpass = scene1:getNode("usepass"):getValue()
+    if type(users) == "string" then
+      if inname == users and inpass == password then
+        returnbool = true
+        dyna.stopWindows()
+      end
+    elseif type(users) == "table" then
+      for key, user in ipairs(users) do
+        if user.username == inname and user.password == inpass then
+          returnbool = true
+          returnnum = tonumber(user.usernum)
+          dyna.stopWindows()
+        end
+      end
+    end
+    if not returnbool then
+      scene1:getNode("wrong"):setTextColor("red")
+    end
+    end
+  end)
+  stage1:build()
+  dyna.startWindows()
+  term.setBackgroundColour(colours.black)
+  return returnbool, returnnum
+end
+
+function pin(code)
+  if type(code) ~= "string" then
+    code = tostring(code)
+  end
+  if type(code) ~= "string" and type(code) ~= "number" then
+    return error("Invalid argument")
+  end
+  labels={"first", "second", "third", "fourth"}
+  current = 1
+  function number(self)
+    if current < 5 then
+      local val = self:getText()
+      pinscene:getNode(labels[current]):setText(val)
+      current = current+1
+      if current-1 == 1 then
+        pinscene:getNode("<"):setTextColor("white")
+      elseif current == 5 then
+        pinscene:getNode("numenter"):setTextColor("black")
+      end
+      if pinscene:getNode("numback"):getBackgroundColor() == "red" then
+        pinscene:getNode("numback"):setBackgroundColor("black")
+        for _, b in ipairs(labels) do
+          pinscene:getNode(b):setBackgroundColor("black")
+        end
+      end
+    end
+  end
+  function bksp()
+    if current > 1 then
+      current=current-1
+      pinscene:getNode(labels[current]):setText("X")
+      if current == 1 then
+        pinscene:getNode("<"):setTextColor("lightGray")
+      end
+      if current < 5 then
+        pinscene:getNode("numenter"):setTextColor("lightGray")
+      end
+      if pinscene:getNode("numback"):getBackgroundColor() == "red" then
+        pinscene:getNode("numback"):setBackgroundColor("black")
+        for _, b in ipairs(labels) do
+          pinscene:getNode(b):setBackgroundColor("black")
+        end
+      end
+    end
+  end
+  function numsub()
+    for _, ch in ipairs(labels) do
+      if pinscene:getNode(ch):getText() == "X" then
+        incomplete = true
+        break
+      end
+    end
+    if not incomplete then
+      attempt = pinscene:getNode(labels[1]):getText() .. pinscene:getNode(labels[2]):getText() .. pinscene:getNode(labels[3]):getText() .. pinscene:getNode(labels[4]):getText()
+      if attempt == code then
+        pinbool = true
+        dyna.stopWindows()
+      end
+    end
+  end
+  local pinstage=dyna.createStage({
+  --Stage one start
+    name="pinstage",
+    backgroundColor="lightGray",
+    title="Enter Pin",
+    topBarColor="white",
+    x=18,
+    y=4,
+    width=15,
+    height=12,
+    resizable=false,
+    moveable=false,
+    borderless=true
+  })
+  pinscene=dyna.createScene({ name="pinscene" })
+  pinscene:replaceWithFile("passLock/passLockPin.dcml")
+  pinstage:setScene(pinscene)
+  pinscene:addToController("submit", function()
+  end)
+  pinscene:addToController("number", number)
+  pinscene:addToController("bksp", bksp)
+  pinscene:addToController("numsub", numsub)
+  nums={"1","2","3","4","5","6","7","8","9","0"}
+  if not dyna.getEventRegistration("char", "numin") then
+  dyna.registerEvent("char", function(event, key)
+    for _, k in ipairs(nums) do
+      if key == k then
+        if pinscene:getNode("numback"):getBackgroundColor() == "red" then
+          pinscene:getNode("numback"):setBackgroundColor("black")
+          for _, b in ipairs(labels) do
+            pinscene:getNode(b):setBackgroundColor("black")
+          end
+        end
+        if current < 5 then
+          pinscene:getNode(labels[current]):setText(key)
+          current = current+1
+          if current-1 == 1 then
+            pinscene:getNode("<"):setTextColor("white")
+          elseif current == 5 then
+            pinscene:getNode("numenter"):setTextColor("black")
+          end
+          break
+        end
+      end
+    end
+  end, "numin")
+  end
+  if not dyna.getEventRegistration("key","numback") then
+    dyna.registerEvent("key", function(event, key)
+      if key == keys.backspace then
+        bksp()
+      elseif key == keys.enter then
+          for _, ch in ipairs(labels) do
+            if pinscene:getNode(ch):getText() == "X" then
+              pinscene:getNode("numback"):setBackgroundColor("red")
+              for _, b in ipairs(labels) do
+                pinscene:getNode(b):setBackgroundColor("red")
+              end
+              incomplete = true
+              break
+            end
+          end
+        if not incomplete then
+          numsub()
+        end
+      end
+    end, "numback")
+  end
+  pinstage:build()
+  dyna.startWindows()
+  return pinbool
+end

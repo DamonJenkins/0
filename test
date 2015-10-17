@@ -1,0 +1,10 @@
+os.loadAPI("DynaCode")
+local dyna = DynaCode.createProgram({name="dyna"})
+s = dyna.file.getAll("test.cfg")
+s = textutils.unserialise(s)
+s.test.t="soup"
+s.another="Test"
+s = textutils.serialise(s)
+f = fs.open("test.cfg", "w")
+f.write(s)
+f.close()

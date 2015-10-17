@@ -1,0 +1,3 @@
+<label x="2" y="2" backgroundColor="white" textColor="black">Hello and welcome to the passLock Security Suite!</label>
+<button x="6" y="9" backgroundColor="cyan" textColor="black" padding="1" onClick="#default">Click to start with default settings</button>
+<button x="6" y="12" backgroundColor="cyan" textColor="black" padding="1" onClick="#custom">Click to start with custom settings</button>

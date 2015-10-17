@@ -1,0 +1,18 @@
+<label name="numback" x="3" y="2" backgroundColor="black" textColor="lightGray">=| | | | |=</label>
+<label name="first" x="5" y="2" backgroundColor="black" textColor="white">X</label>
+<label name="second" x="7" y="2" backgroundColor="black" textColor="white">X</label>
+<label name="third" x="9" y="2" backgroundColor="black" textColor="white">X</label>
+<label name="fourth" x="11" y="2" backgroundColor="black" textColor="white">X</label>
+<button name="1" x="5" y="4" backgroundColor="black" textColor="white" onClick="#number" padding="1">1</button>
+<button name="2" x="7" y="4" backgroundColor="black" textColor="white" onClick="#number" padding="1">2</button>
+<button name="3" x="9" y="4" backgroundColor="black" textColor="white" onClick="#number" padding="1">3</button>
+<button name="4" x="5" y="6" backgroundColor="black" textColor="white" onClick="#number" padding="1">4</button>
+<button name="5" x="7" y="6" backgroundColor="black" textColor="white" onClick="#number" padding="1">5</button>
+<button name="6" x="9" y="6" backgroundColor="black" textColor="white" onClick="#number" padding="1">6</button>
+<button name="7" x="5" y="8" backgroundColor="black" textColor="white" onClick="#number" padding="1">7</button>
+<button name="8" x="7" y="8" backgroundColor="black" textColor="white" onClick="#number" padding="1">8</button>
+<button name="9" x="9" y="8" backgroundColor="black" textColor="white" onClick="#number" padding="1">9</button>
+<button name="0" x="7" y="10" backgroundColor="black" textColor="white" onClick="#number" padding="1">0</button>
+<button name="<" x="4" y="10" backgroundColor="gray" textColor="lightGray" onClick="#bksp" padding="1"><</button>
+<button name="C" x="10" y="10" backgroundColor="red" textColor="lightGray" onClick="#C" padding="1">C</button>
+<button name="numenter" x="5" y="11" backgroundColor="white" textColor="lightGray" onClick="#numsub" padding="1">Enter</button>

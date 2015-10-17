@@ -1,0 +1,2 @@
+os.loadAPI('passLock/passLock') 
+passLock.suite()

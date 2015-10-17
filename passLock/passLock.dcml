@@ -1,0 +1,6 @@
+<label name="namename" x="3" y="2" backgroundColor="green" textColor="black">Username</label>
+<input name="usename" x="3" y="3" backgroundColor="white" unfocusedColor="lightGray" textColor="black" width="12"></input>
+<label name="namepass" x="3" y="6" backgroundColor="green" textColor="black">Password</label>
+<input name="usepass" x="3" y="7" backgroundColor="white" unfocusedColor="lightGray" textColor="black" width="12" onSubmit="#login"></input>
+<label name="wrong" x="3" y="9" textColor="green" backgroundColor="green">Incorrect Username/ Password</label>
+<button name="login" x="13" y="11" textColor="black" onClick="#log" padding="1">Login</button>

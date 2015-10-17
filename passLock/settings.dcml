@@ -1,0 +1,9 @@
+<label name="namename" x="5" y="3" backgroundColor="green" textColor="black">Background Colour:</label>
+<input name="bgcol" x="25" y="3" backgroundColor="white" unfocusedColor="lightGray" textColor="black" width="12"></input>
+<label name="namename" x="9" y="5" backgroundColor="green" textColor="black">Button Colour:</label>
+<input name="bgcol" x="25" y="5" backgroundColor="white" unfocusedColor="lightGray" textColor="black" width="12"></input>
+<label name="namename" x="11" y="7" backgroundColor="green" textColor="black">Text Colour:</label>
+<input name="bgcol" x="25" y="7" backgroundColor="white" unfocusedColor="lightGray" textColor="black" width="12"></input>
+<label name="namename" x="4" y="9" backgroundColor="green" textColor="black">Button Text Colour:</label>
+<input name="bgcol" x="25" y="9" backgroundColor="white" unfocusedColor="lightGray" textColor="black" width="12"></input>
+<button name="login" x="22" y="18" textColor="black" onClick="#log" padding="1">Login</button>

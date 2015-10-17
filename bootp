@@ -1,0 +1,4 @@
+os.loadAPI("passLock/passLock")
+if passLock.pin(4321) then
+  print("Correct!")
+end

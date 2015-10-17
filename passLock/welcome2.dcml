@@ -1,0 +1,1 @@
+<button name="login" x="6" y="12" textColor="black" backgroundColor="lime" onClick="#custom" padding="1">Click to start with custom settings</button>
