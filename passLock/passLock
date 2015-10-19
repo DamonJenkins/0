@@ -56,8 +56,9 @@ end
 function settings(stage)
   local settings = dyna.createScene({name="welcomescene2"})
   settings:replaceWithFile("passLock/welcome2.dcml")
+  term.clear()
   stage:setScene(settings)
-  stage:build()
+  --stage:build()
   if welcomebool then
     create()
   end
